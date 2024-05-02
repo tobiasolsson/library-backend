@@ -11,5 +11,5 @@ public class ApiError {
     private Instant timestamp;
     private int httpStatusCode;
     private String errorCode;
-    private String description;
+    private String defaultMessage;
 }

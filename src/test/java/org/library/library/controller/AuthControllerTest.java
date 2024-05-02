@@ -102,4 +102,11 @@ class AuthControllerTest {
            .andExpect(status().isBadRequest());
     }
 
+
+    // login tests
+
+    // test successful login
+    // test no email login
+    // test wrong password login
+
 }

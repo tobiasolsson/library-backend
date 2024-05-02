@@ -16,8 +16,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ApiError.builder()
                        .timestamp(Instant.now())
                        .httpStatusCode(HttpStatus.BAD_REQUEST.value())
-                       .errorCode(ErrorCode.EMAIL_EXISTS.message)
-                       .description(ex.getMessage())
+                       .errorCode(ErrorCode.EMAIL_EXISTS.name())
+                       .defaultMessage(ex.getMessage())
                        .build();
     }
 
@@ -27,8 +27,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ApiError.builder()
                        .timestamp(Instant.now())
                        .httpStatusCode(HttpStatus.BAD_REQUEST.value())
-                       .errorCode(ErrorCode.EMAIL_EMPTY.message)
-                       .description(ex.getMessage())
+                       .errorCode(ErrorCode.EMAIL_EMPTY.name())
+                       .defaultMessage(ex.getMessage())
                        .build();
     }
 
@@ -38,8 +38,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ApiError.builder()
                        .timestamp(Instant.now())
                        .httpStatusCode(HttpStatus.BAD_REQUEST.value())
-                       .errorCode(ErrorCode.PASSWORD_SHORT.message)
-                       .description(ex.getMessage())
+                       .errorCode(ErrorCode.PASSWORD_SHORT.name())
+                       .defaultMessage(ex.getMessage())
                        .build();
     }
 
@@ -49,8 +49,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ApiError.builder()
                        .timestamp(Instant.now())
                        .httpStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                       .errorCode(ErrorCode.UNKNOWN_ERROR.message)
-                       .description(ex.getMessage())
+                       .errorCode(ErrorCode.UNKNOWN_ERROR.name())
+                       .defaultMessage(ex.getMessage())
                        .build();
     }
 }
