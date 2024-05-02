@@ -3,7 +3,9 @@ package org.library.library.service;
 import lombok.RequiredArgsConstructor;
 import org.library.library.entity.Roles;
 import org.library.library.entity.User;
-import org.library.library.model.LoginRequest;
+import org.library.library.exception.DuplicateEmailException;
+import org.library.library.exception.InvalidEmailException;
+import org.library.library.exception.InvalidPasswordException;
 import org.library.library.model.LoginResponse;
 import org.library.library.repository.UserRepository;
 import org.library.library.security.JwtIssuer;
@@ -48,11 +50,22 @@ public class AuthService {
                             .build();
     }
 
-    public String registerNewUser(LoginRequest registerRequest) {
-        var password = passwordEncoder.encode(registerRequest.getPassword());
+    public String registerNewUser(String email, String password) {
+        if (password.length() < 6) {
+            throw new InvalidPasswordException(String.valueOf(password.length()));
+        }
+        if (email.isEmpty()) {
+            throw new InvalidEmailException("0");
+        }
+        if (userRepository.findByEmail(email).isPresent()) {
+            System.out.println("here");
+            throw new DuplicateEmailException(email);
+        }
+
+        var encodedPassword = passwordEncoder.encode(password);
         User newUser = User.builder()
-                           .email(registerRequest.getEmail())
-                           .password(password)
+                           .email(email)
+                           .password(encodedPassword)
                            .roles(Roles.ROLE_USER.name())
                            .build();
         User registeredUser = userRepository.save(newUser);
