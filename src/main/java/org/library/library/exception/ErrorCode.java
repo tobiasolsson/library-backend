@@ -5,6 +5,8 @@ public enum ErrorCode {
     EMAIL_EMPTY("Email is empty"),
     EMAIL_EXISTS("Email already exists"),
     UNKNOWN_ERROR("Something unexpected happened"),
+    USER_NOT_FOUND("User not found"),
+    BAD_CREDENTIALS("Wrong username or password"),
     ;
 
     public final String message;

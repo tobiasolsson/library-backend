@@ -1,6 +1,8 @@
 package org.library.library.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -43,6 +45,28 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                        .build();
     }
 
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ApiError handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        return ApiError.builder()
+                       .timestamp(Instant.now())
+                       .httpStatusCode(HttpStatus.BAD_REQUEST.value())
+                       .errorCode(ErrorCode.USER_NOT_FOUND.name())
+                       .defaultMessage(ex.getMessage())
+                       .build();
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ApiError handleBadCredentialsException(BadCredentialsException ex) {
+        return ApiError.builder()
+                       .timestamp(Instant.now())
+                       .httpStatusCode(HttpStatus.BAD_REQUEST.value())
+                       .errorCode(ErrorCode.BAD_CREDENTIALS.name())
+                       .defaultMessage(ex.getMessage())
+                       .build();
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiError globalExceptionHandler(Exception ex) {
@@ -50,7 +74,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                        .timestamp(Instant.now())
                        .httpStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                        .errorCode(ErrorCode.UNKNOWN_ERROR.name())
-                       .defaultMessage(ex.getMessage())
+                       .defaultMessage("Message: " + ex.getMessage() + " | Exception: " + ex.getClass().getSimpleName())
                        .build();
     }
 }
