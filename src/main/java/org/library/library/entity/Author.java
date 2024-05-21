@@ -15,5 +15,6 @@ public class Author {
     @Id
     @GeneratedValue
     private long id;
-    private String name;
+    private String firstName;
+    private String lastName;
 }

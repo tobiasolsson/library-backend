@@ -23,8 +23,14 @@ public class AuthorService {
 
     public List<Author> findAuthorByName(String name) {
         List<Author> authors = getAllAuthors();
-        authors.removeIf(author -> !author.getName().toLowerCase().contains(name.toLowerCase()));
-        return authors;
+        List<Author> filteredAuthors = new ArrayList<>();
+        for (Author author : authors) {
+            if (author.getFirstName().equals(name) || author.getLastName().equals(name)) {
+                filteredAuthors.add(author);
+            }
+        }
+        
+        return filteredAuthors;
     }
 
     public Author findAuthorById(Long id) {
