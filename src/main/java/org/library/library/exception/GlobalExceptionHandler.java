@@ -12,6 +12,17 @@ import java.time.Instant;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+    @ExceptionHandler(AuthorNotFoundException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public ApiError handleAuthorNotFoundException(AuthorNotFoundException e) {
+        return ApiError.builder()
+                       .timestamp(Instant.now())
+                       .httpStatusCode(HttpStatus.NOT_FOUND.value())
+                       .errorCode(ErrorCode.AUTHOR_NOT_FOUND.name())
+                       .defaultMessage("Could not find any author with params: " + e.getMessage())
+                       .build();
+    }
+
     @ExceptionHandler(DuplicateEmailException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ApiError handleDuplicateEmailException(DuplicateEmailException ex) {

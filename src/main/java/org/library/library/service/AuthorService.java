@@ -2,6 +2,7 @@ package org.library.library.service;
 
 import lombok.RequiredArgsConstructor;
 import org.library.library.entity.Author;
+import org.library.library.exception.AuthorNotFoundException;
 import org.library.library.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +30,11 @@ public class AuthorService {
                 filteredAuthors.add(author);
             }
         }
-        
+
         return filteredAuthors;
     }
 
     public Author findAuthorById(Long id) {
-        return authorRepository.findById(id).orElse(null); // TODO handle this exception
+        return authorRepository.findById(id).orElseThrow(() -> new AuthorNotFoundException(String.valueOf(id)));
     }
 }
