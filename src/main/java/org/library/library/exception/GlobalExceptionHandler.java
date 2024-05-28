@@ -12,6 +12,17 @@ import java.time.Instant;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+    @ExceptionHandler(EmptyParameterException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ApiError handleEmptyParameterException(EmptyParameterException e) {
+        return ApiError.builder()
+                       .timestamp(Instant.now())
+                       .httpStatusCode(HttpStatus.BAD_REQUEST.value())
+                       .errorCode(ErrorCode.EMPTY_PARAMETERS.name())
+                       .defaultMessage(e.getMessage())
+                       .build();
+    }
+
     @ExceptionHandler(AuthorNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ApiError handleAuthorNotFoundException(AuthorNotFoundException e) {

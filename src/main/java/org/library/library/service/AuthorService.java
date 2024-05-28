@@ -3,6 +3,7 @@ package org.library.library.service;
 import lombok.RequiredArgsConstructor;
 import org.library.library.entity.Author;
 import org.library.library.exception.AuthorNotFoundException;
+import org.library.library.exception.EmptyParameterException;
 import org.library.library.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ public class AuthorService {
     private final AuthorRepository authorRepository;
 
     public Author createNewAuthor(Author author) {
+        if (author.getFirstName().isEmpty() || author.getLastName().isEmpty()) {
+            throw new EmptyParameterException("Author must have at least one first and last name");
+        }
         return authorRepository.save(author);
     }
 
