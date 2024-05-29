@@ -29,12 +29,17 @@ public class AuthorService {
     public List<Author> findAuthorByName(String name) {
         List<Author> authors = getAllAuthors();
         List<Author> filteredAuthors = new ArrayList<>();
+
         for (Author author : authors) {
             if (author.getFirstName().equals(name) || author.getLastName().equals(name)) {
                 filteredAuthors.add(author);
             }
         }
 
+        if (filteredAuthors.isEmpty()) {
+            throw new AuthorNotFoundException("Author not found with name " + name);
+        }
+        
         return filteredAuthors;
     }
 
