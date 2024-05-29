@@ -39,7 +39,7 @@ public class AuthorService {
         if (filteredAuthors.isEmpty()) {
             throw new AuthorNotFoundException("Author not found with name " + name);
         }
-        
+
         return filteredAuthors;
     }
 
